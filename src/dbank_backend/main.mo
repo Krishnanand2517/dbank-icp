@@ -3,8 +3,8 @@ import Nat "mo:base/Nat";
 
 actor DBank {
   // Variable
-  var currentValue = 300;
-  currentValue := 100;
+  stable var currentValue = 300;
+  // currentValue := 100;
 
   // Constant
   // let constValue = 23;

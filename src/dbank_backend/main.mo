@@ -1,9 +1,10 @@
 import Debug "mo:base/Debug";
-import Nat "mo:base/Nat";
+import Time "mo:base/Time";
+import Float "mo:base/Float";
 
 actor DBank {
   // Variable
-  stable var currentValue = 300;
+  stable var currentValue : Float = 300;
   // currentValue := 100;
 
   // Constant
@@ -13,12 +14,15 @@ actor DBank {
   // Debug.print("Radhe Radhe!");
   // Debug.print(debug_show (currentValue));
 
-  public func topUp(amount : Nat) {
+  stable var startTime = Time.now();
+  Debug.print(debug_show (startTime));
+
+  public func topUp(amount : Float) {
     currentValue += amount;
     Debug.print(debug_show (currentValue));
   };
 
-  public func withdraw(amount : Nat) {
+  public func withdraw(amount : Float) {
     if (amount <= currentValue) {
       currentValue -= amount;
       Debug.print(debug_show (currentValue));
@@ -27,7 +31,17 @@ actor DBank {
     };
   };
 
-  public query func checkBalance() : async Nat {
+  public query func checkBalance() : async Float {
     return currentValue;
+  };
+
+  public func compound() {
+    let currentTime = Time.now();
+    let timeElapsedNanoSeconds = currentTime - startTime;
+    let timeElapsedSeconds = timeElapsedNanoSeconds / 1000000000;
+
+    currentValue := currentValue * (1.01 ** Float.fromInt(timeElapsedSeconds));
+
+    startTime := currentTime;
   };
 };

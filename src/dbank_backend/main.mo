@@ -40,7 +40,7 @@ actor DBank {
     let timeElapsedNanoSeconds = currentTime - startTime;
     let timeElapsedSeconds = timeElapsedNanoSeconds / 1000000000;
 
-    currentValue := currentValue * (1.01 ** Float.fromInt(timeElapsedSeconds));
+    currentValue := currentValue * (1.01 ** Float.fromInt(timeElapsedSeconds / 10));
 
     startTime := currentTime;
   };
